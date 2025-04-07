@@ -2,6 +2,6 @@ from shapely import Point
 
 class Occurence():
     id: int | None
-    categoria_id: int
-    descricao: str
+    category_id: int
+    description: str
     geom: Point

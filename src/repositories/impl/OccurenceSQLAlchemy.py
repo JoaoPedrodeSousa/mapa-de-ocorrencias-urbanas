@@ -10,8 +10,8 @@ class OccurenceSQLAlchemy(OccurenceRepository):
     def save(self, occurence:Occurence):
         model = OccurrenceModel(
             id=None,
-            categoria_id= occurence.categoria_id,
-            descricao = occurence.descricao,
+            categoria_id= occurence.category_id,
+            descricao = occurence.description,
             geom = occurence.geom
         )
 
@@ -23,19 +23,19 @@ class OccurenceSQLAlchemy(OccurenceRepository):
         model = OccurrenceModel.query.filter_by(id=id).first_or_404() 
         occurence = Occurence(
             id= model.id,
-            categoria_id= model.categoria_id,
-            descricao = model.descricao,
+            category_id= model.categoria_id,
+            description = model.descricao,
             geom = model.geom
         )
         return occurence
 
-    def findByCategory(self, categoria_id:int):
-        models = OccurrenceModel.query.filter_by(categoria_id = categoria_id).all()
+    def findByCategory(self, category_id:int):
+        models = OccurrenceModel.query.filter_by(categoria_id = category_id).all()
 
         occurences = [ Occurence(
             id= model.id,
-            categoria_id= model.categoria_id,
-            descricao = model.descricao,
+            category_id= model.categoria_id,
+            description = model.descricao,
             geom = model.geom
         )for model in models]
 
@@ -43,10 +43,12 @@ class OccurenceSQLAlchemy(OccurenceRepository):
     
     def findAll(self):
         models = OccurrenceModel.query.all() 
+
         occurences = [ Occurence(
             id= model.id,
-            categoria_id= model.categoria_id,
-            descricao = model.descricao,
+            category_id= model.categoria_id,
+            description = model.descricao,
             geom = model.geom
         )for model in models]
+        
         return occurences
