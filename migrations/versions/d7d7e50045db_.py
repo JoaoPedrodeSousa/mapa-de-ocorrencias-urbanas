@@ -32,8 +32,8 @@ def upgrade():
     sa.ForeignKeyConstraint(['categoria_id'], ['tb_categoria.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
-    with op.batch_alter_table('tb_ocorrencias', schema=None) as batch_op:
-        batch_op.create_index('idx_tb_ocorrencias_geom', ['geom'], unique=False, postgresql_using='gist')
+    # with op.batch_alter_table('tb_ocorrencias', schema=None) as batch_op:
+    #     batch_op.create_index('idx_tb_ocorrencias_geom', ['geom'], unique=False, postgresql_using='gist')
 
     # ### end Alembic commands ###
 
