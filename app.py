@@ -1,6 +1,7 @@
 from src.infrastructure.server import server
 from src.infrastructure.database.database import connection
 from src.infrastructure.database.models import *
+from src.controllers.OccurenceRouter import *
 
 app = server.get_app()
 

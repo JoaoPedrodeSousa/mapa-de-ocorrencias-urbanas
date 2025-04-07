@@ -7,8 +7,8 @@ class CategorySQLAlchemy(CategoryRepository):
     def __init__(self):
         self._db = connection.get_db()
     
-    def find(self, id) -> Category:
-        model = CategoryModel.query.filter_by(id=id).first_or_404()
+    def find(self, name) -> Category:
+        model = CategoryModel.query.filter_by(nome=name).first_or_404()
 
         return Category(
             id = model.id,
