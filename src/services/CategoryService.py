@@ -8,6 +8,5 @@ class CategoryService():
         categories = self._category_repository.findAll()
         return categories
     
-    def find(self, name):
-        category = self._category_repository.findAll(name)
-        return category
+    def find(self, category):
+        return self._category_repository.find(category=category)
