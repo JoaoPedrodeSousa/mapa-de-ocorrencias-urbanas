@@ -1,8 +1,10 @@
-from src.errors.OutsideDistritoFederalError import OutsideDistritoFederalError
+import requests
 
 from shapely import Point
-from geoalchemy2.shape import from_shape
+from shapely.geometry import shape
 from datetime import datetime
+
+from src.errors.OutsideDistritoFederalError import OutsideDistritoFederalError
 
 from src.entities.Occurrence import Occurence
 from src.repositories.OccurrenceRepository import OccurenceRepository
@@ -12,24 +14,31 @@ class OccurrenceService():
         self._occurence_repository = occurenceRepository
 
     def save(self, category_id, description, coordinates) -> dict:
-        x = coordinates[0]
-        y = coordinates[1]
-
-        occurence = Occurence(
-            id = None,
-            category_id = category_id,
-            description = description,
-            date = datetime.now(),
-            geom = Point(x,y)
-        )
         try:
+            x = coordinates[0]
+            y = coordinates[1]
+
+            geom = Point(x,y)
+            
+            self.isValidGeom(geom)
+
+            occurence = Occurence(
+                id = None,
+                category_id = category_id,
+                description = description,
+                date = datetime.now(),
+                geom = geom
+            )
+
             self._occurence_repository.save(occurence = occurence)
+        
+            features = self._make_feature(occurence)
+            geojson = self._make_geojson([features])
+
+            return geojson
+        
         except Exception as e:
             raise OutsideDistritoFederalError()
-        features = self._make_feature(occurence)
-        geojson = self._make_geojson([features])
-
-        return geojson
 
     def find(self, id) -> Occurence:
         occurence = self._occurence_repository.find(id=id)
@@ -68,3 +77,17 @@ class OccurrenceService():
         "type": "FeatureCollection",
         "features": [feature for feature in features]
     }
+
+    def isValidGeom(self, point:Point):
+        wfs_df = requests.get("http://localhost:8082/geoserver/limites_df/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=limites_df:tb_limites_df&maxFeatures=50&outputFormat=application/json")
+
+        geojson = wfs_df.json()
+        feature = geojson["features"][0]["geometry"]
+
+        geom_df = shape(feature)
+
+        if geom_df.contains(point):
+            return True
+        
+        raise Exception
+        
