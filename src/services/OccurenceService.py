@@ -79,7 +79,7 @@ class OccurrenceService():
     }
 
     def isValidGeom(self, point:Point):
-        wfs_df = requests.get("http://localhost:8082/geoserver/limites_df/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=limites_df:tb_limites_df&maxFeatures=50&outputFormat=application/json")
+        wfs_df = requests.get("http://geoserver:8080/geoserver/limites_df/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=limites_df:tb_limites_df&maxFeatures=50&outputFormat=application/json")
 
         geojson = wfs_df.json()
         feature = geojson["features"][0]["geometry"]

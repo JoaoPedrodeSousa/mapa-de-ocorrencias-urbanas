@@ -1,4 +1,18 @@
 services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 5000:5000
+    container_name: backend-flask
+    restart: always
+    environment:
+      - FLASK_ENV=development
+      - FLASK_APP=app.py
+    depends_on:
+      - geoserver
+
   geoserver:
     image: kartoza/geoserver
     ports:
@@ -26,3 +40,4 @@ services:
 
 volumes:
   dados_geoserver:
+  cache_flask:

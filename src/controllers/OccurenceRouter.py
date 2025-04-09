@@ -57,5 +57,3 @@ def find_all_occurence():
     geojson = occurrence_service.findAll()
 
     return make_response(jsonify(geojson),200)
-
-
