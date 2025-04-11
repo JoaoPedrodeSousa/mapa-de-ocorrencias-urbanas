@@ -1,6 +1,5 @@
 data_geoserver
 .venv
-vue-project
 __pycache__
 src/services/GeoserverService.py
 src/errors/DatastoreNameError.py
