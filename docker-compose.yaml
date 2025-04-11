@@ -1,8 +1,20 @@
 services:
+  frontend:
+    build:
+      context: .
+      dockerfile: ./frontend/dockerfile
+    ports:
+      - 5173:5173
+    container_name: frontend-vue
+    restart: always
+    # depends_on:
+    #   - geoserver
+    #   - backend
+
   backend:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: ./backend/dockerfile
     ports:
       - 5000:5000
     container_name: backend-flask

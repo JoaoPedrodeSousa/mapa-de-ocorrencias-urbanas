@@ -1,4 +1,4 @@
-from src.repositories.CategoryRepository import CategoryRepository
+from backend.src.repositories.CategoryRepository import CategoryRepository
 
 class CategoryService():
     def __init__(self, categoryRepository:CategoryRepository):

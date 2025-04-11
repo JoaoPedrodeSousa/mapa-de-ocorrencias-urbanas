@@ -1,7 +1,7 @@
-from src.infrastructure.server import server
-from src.infrastructure.database.database import connection
-from src.infrastructure.database.models import *
-from src.controllers.OccurenceRouter import *
+from backend.src.infrastructure.server import server
+from backend.src.infrastructure.database.database import connection
+from backend.src.infrastructure.database.models import *
+from backend.src.controllers.OccurenceRouter import *
 
 app = server.get_app()
 

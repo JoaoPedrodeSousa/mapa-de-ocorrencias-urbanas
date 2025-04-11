@@ -1,4 +1,4 @@
-from src.entities.Category import Category
+from backend.src.entities.Category import Category
 from abc import ABC, abstractmethod
 
 class CategoryRepository(ABC):

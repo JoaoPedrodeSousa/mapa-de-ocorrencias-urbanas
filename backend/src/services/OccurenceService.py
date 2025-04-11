@@ -4,10 +4,10 @@ from shapely import Point
 from shapely.geometry import shape
 from datetime import datetime
 
-from src.errors.OutsideDistritoFederalError import OutsideDistritoFederalError
+from backend.src.errors.OutsideDistritoFederalError import OutsideDistritoFederalError
 
-from src.entities.Occurrence import Occurence
-from src.repositories.OccurrenceRepository import OccurenceRepository
+from backend.src.entities.Occurrence import Occurence
+from backend.src.repositories.OccurrenceRepository import OccurenceRepository
 
 class OccurrenceService():
     def __init__(self, occurenceRepository:OccurenceRepository):
@@ -79,7 +79,7 @@ class OccurrenceService():
     }
 
     def isValidGeom(self, point:Point):
-        wfs_df = requests.get("http://geoserver:8080/geoserver/limites_df/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=limites_df:tb_limites_df&maxFeatures=50&outputFormat=application/json")
+        wfs_df = requests.get("http://geoserver:8080/geoserver/limites_df/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=limites_df:limites_df&maxFeatures=50&outputFormat=application/json")
 
         geojson = wfs_df.json()
         feature = geojson["features"][0]["geometry"]

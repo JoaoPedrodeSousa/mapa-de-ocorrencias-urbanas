@@ -1,15 +1,15 @@
 from flask import request, jsonify, make_response
 
-from src.errors.OutsideDistritoFederalError import OutsideDistritoFederalError
+from backend.src.errors.OutsideDistritoFederalError import OutsideDistritoFederalError
 
-from src.infrastructure.server import server
-from src.entities.Occurrence import Occurence
+from backend.src.infrastructure.server import server
+from backend.src.entities.Occurrence import Occurence
 
-from src.services.OccurenceService import OccurrenceService
-from src.services.CategoryService import CategoryService
+from backend.src.services.OccurenceService import OccurrenceService
+from backend.src.services.CategoryService import CategoryService
 
-from src.repositories.impl.OccurenceSQLAlchemy import OccurenceSQLAlchemy
-from src.repositories.impl.CategorySQLAlchemy import CategorySQLAlchemy
+from backend.src.repositories.impl.OccurenceSQLAlchemy import OccurenceSQLAlchemy
+from backend.src.repositories.impl.CategorySQLAlchemy import CategorySQLAlchemy
 
 app = server.get_app()
 
