@@ -1,4 +1,4 @@
-from backend.src.entities.Occurrence import Occurence
+from src.entities.Occurrence import Occurence
 from abc import ABC, abstractmethod
 
 class OccurenceRepository(ABC):

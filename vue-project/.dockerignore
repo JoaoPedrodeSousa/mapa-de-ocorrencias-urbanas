@@ -1,5 +1,4 @@
 dockerfile
-docker-compose.yaml
 .gitignore
 .git
 package-lock.json

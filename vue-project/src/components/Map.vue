@@ -6,7 +6,6 @@
 import { ref, onMounted } from "vue";
 import "leaflet/dist/leaflet.css";
 import * as L from "leaflet";
-import "proj4leaflet";
 
 const map = ref(null);
 
@@ -27,9 +26,9 @@ onMounted(() => {
     attribution:
       '&copy; Contribuidores do <a href="http://osm.org/copyright">OpenStreetMap</a>',
   }).addTo(map.value);
-  L.tileLayer
-    .wms("http://localhost:8082/geoserver/limites_df/wms?", wmsOptions)
-    .addTo(map.value);
+  // L.tileLayer
+  //   .wms("http://localhost:8082/geoserver/limites_df/wms?", wmsOptions)
+  //   .addTo(map.value);
 });
 </script>
 

@@ -1,8 +1,8 @@
 from geoalchemy2.shape import from_shape, to_shape
 
-from backend.src.infrastructure.database.database import connection
-from backend.src.entities.Occurrence import Occurence
-from backend.src.infrastructure.database.models import OccurrenceModel
+from src.infrastructure.database.database import connection
+from src.entities.Occurrence import Occurence
+from src.infrastructure.database.models import OccurrenceModel
 from ..OccurrenceRepository import OccurenceRepository
 
 class OccurenceSQLAlchemy(OccurenceRepository):

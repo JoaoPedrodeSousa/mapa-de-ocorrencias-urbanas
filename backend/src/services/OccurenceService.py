@@ -4,10 +4,10 @@ from shapely import Point
 from shapely.geometry import shape
 from datetime import datetime
 
-from backend.src.errors.OutsideDistritoFederalError import OutsideDistritoFederalError
+from src.errors.OutsideDistritoFederalError import OutsideDistritoFederalError
 
-from backend.src.entities.Occurrence import Occurence
-from backend.src.repositories.OccurrenceRepository import OccurenceRepository
+from src.entities.Occurrence import Occurence
+from src.repositories.OccurrenceRepository import OccurenceRepository
 
 class OccurrenceService():
     def __init__(self, occurenceRepository:OccurenceRepository):

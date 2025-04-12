@@ -1,20 +1,15 @@
 services:
   frontend:
-    build:
-      context: .
-      dockerfile: ./frontend/dockerfile
+    build: ./vue-project
     ports:
       - 5173:5173
     container_name: frontend-vue
     restart: always
-    # depends_on:
-    #   - geoserver
-    #   - backend
-
+    depends_on:
+      - geoserver
+      - backend
   backend:
-    build:
-      context: .
-      dockerfile: ./backend/dockerfile
+    build: ./backend
     ports:
       - 5000:5000
     container_name: backend-flask
@@ -38,7 +33,6 @@ services:
       - GEOSERVER_ADMIN_PASSWORD=geoserver
     depends_on:
       - postgis
-
   postgis:
     image: postgis/postgis
     ports:

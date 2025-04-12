@@ -3,6 +3,5 @@ data_geoserver
 __pycache__
 migrations
 dockerfile
-docker-compose.yaml
 .gitignore
 .git

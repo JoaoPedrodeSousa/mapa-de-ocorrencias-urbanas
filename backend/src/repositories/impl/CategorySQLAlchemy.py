@@ -1,6 +1,6 @@
-from backend.src.infrastructure.database.database import connection
-from backend.src.entities.Category import Category
-from backend.src.infrastructure.database.models import CategoryModel
+from src.infrastructure.database.database import connection
+from src.entities.Category import Category
+from src.infrastructure.database.models import CategoryModel
 from ..CategoryRepository import CategoryRepository
 
 class CategorySQLAlchemy(CategoryRepository):

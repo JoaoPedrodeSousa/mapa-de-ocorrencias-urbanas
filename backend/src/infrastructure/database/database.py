@@ -7,7 +7,7 @@ app = server.get_app()
 
 class ConnectionPostGIS():
     def __init__(self):
-        app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@postgis:5432/brasilia_df'
+        app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@localhost:5432/brasilia_df'
         app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
         self._db:SQLAlchemy = SQLAlchemy(app)
         self._migrate:Migrate = Migrate(app,self._db)
