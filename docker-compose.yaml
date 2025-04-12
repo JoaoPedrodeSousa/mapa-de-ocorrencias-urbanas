@@ -5,9 +5,12 @@ services:
       - 5173:5173
     container_name: frontend-vue
     restart: always
+    volumes:
+      - ./vue-project:/app
+      - /app/node_modules
     depends_on:
-      - geoserver
       - backend
+
   backend:
     build: ./backend
     ports:
@@ -17,6 +20,8 @@ services:
     environment:
       - FLASK_ENV=development
       - FLASK_APP=app.py
+    volumes:
+      - ./backend:/app
     depends_on:
       - geoserver
 

@@ -18,17 +18,27 @@ const wmsOptions = {
 
 onMounted(() => {
   map.value = L.map("map", {
-    center: [-15.7801, -47.9292],
-    zoom: 8,
+    center: [-15.7801, -47.7292],
+    zoom: 10,
   });
 
   L.tileLayer("http://{s}.tile.osm.org/{z}/{x}/{y}.png", {
     attribution:
       '&copy; Contribuidores do <a href="http://osm.org/copyright">OpenStreetMap</a>',
   }).addTo(map.value);
-  L.tileLayer
+
+  const limite_df = L.tileLayer
     .wms("http://localhost:8082/geoserver/limites_df/wms?", wmsOptions)
     .addTo(map.value);
+
+  const wms = {
+    "Limite DF": limite_df,
+  };
+
+  L.control.layers(null, wms).addTo(map.value);
+
+  // map.value.on("click", function (e) {
+  // }); // -----> definir evento de click
 });
 </script>
 

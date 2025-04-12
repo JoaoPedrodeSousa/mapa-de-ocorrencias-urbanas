@@ -8,6 +8,9 @@ import vueDevTools from "vite-plugin-vue-devtools";
 export default defineConfig({
   server: {
     host: "0.0.0.0",
+    watch: {
+      usePolling: true, // importante para Docker no Windows/macOS
+    },
   },
   plugins: [vue(), vueDevTools()],
   resolve: {
