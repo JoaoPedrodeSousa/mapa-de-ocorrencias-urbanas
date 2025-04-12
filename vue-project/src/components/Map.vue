@@ -19,16 +19,16 @@ const wmsOptions = {
 onMounted(() => {
   map.value = L.map("map", {
     center: [-15.7801, -47.9292],
-    zoom: 12,
+    zoom: 8,
   });
 
   L.tileLayer("http://{s}.tile.osm.org/{z}/{x}/{y}.png", {
     attribution:
       '&copy; Contribuidores do <a href="http://osm.org/copyright">OpenStreetMap</a>',
   }).addTo(map.value);
-  // L.tileLayer
-  //   .wms("http://localhost:8082/geoserver/limites_df/wms?", wmsOptions)
-  //   .addTo(map.value);
+  L.tileLayer
+    .wms("http://localhost:8082/geoserver/limites_df/wms?", wmsOptions)
+    .addTo(map.value);
 });
 </script>
 
