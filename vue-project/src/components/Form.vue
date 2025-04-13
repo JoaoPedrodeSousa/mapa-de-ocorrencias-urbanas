@@ -3,12 +3,12 @@
     <h1>Cadastro de Ocorrências Urbanas</h1>
     <form>
       <CategoryField />
-      <FormField type="text" name="Descrição do Problema" />
-      <FormField type="date" name="Data de Registro" />
+      <FormField type="text" name="Descrição do Problema" id="descricao"/>
+      <FormField type="date" name="Data de Registro" id="data" />
 
       <div class="coordinates">
-        <FormField type="text" name="X:" />
-        <FormField type="text" name="Y:" />
+        <FormField type="text" name="X:" id="X"/>
+        <FormField type="text" name="Y:" id="Y"/>
       </div>
 
       <button>ENVIAR</button>
@@ -19,6 +19,7 @@
 <script setup>
 import FormField from "./FormField.vue";
 import CategoryField from "./CategoryField.vue";
+
 </script>
 <style scoped>
 h1{

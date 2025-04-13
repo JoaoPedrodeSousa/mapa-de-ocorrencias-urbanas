@@ -1,7 +1,7 @@
 <template>
   <div class="input-container">
-    <label :for="name">{{ name }}</label>
-    <input :type="type" value="value" :name="name" :id="name" />
+    <label :for="id">{{ name }}</label>
+    <input :type="type" :name="name" :id="id" :value="value"/>
   </div>
 </template>
 
@@ -9,9 +9,10 @@
 import { defineProps } from "vue";
 
 const props = defineProps({
-  value: String,
   type: String,
   name: String,
+  id: String,
+  value:String
 });
 </script>
 
