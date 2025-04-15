@@ -8,4 +8,8 @@ import Form from "./components/Form.vue";
   <Form />
 </template>
 
-<style scoped></style>
+<style scoped>
+* {
+  margin: 0px;
+}
+</style>
