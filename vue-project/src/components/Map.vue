@@ -6,7 +6,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, defineProps } from "vue";
+import { ref, onMounted, defineProps, defineEmits } from "vue";
 import "leaflet/dist/leaflet.css";
 import * as L from "leaflet";
 import Modal from "./Modal.vue";
@@ -14,10 +14,16 @@ import Modal from "./Modal.vue";
 const map = ref(null);
 
 const props = defineProps({
-    success:Boolean,
-    lat:Number,
-    lng:Number
+    success:Boolean
 })
+
+const emit = defineEmits(["handleClick"])
+function sendCoordinates(lat, lng){
+  emit("handleClick", {
+    lat:lat,
+    lng: lng
+  })
+}
 
 const wmsOptions = {
   layers: "limites_df:limites_df",
@@ -48,8 +54,8 @@ onMounted(() => {
   L.control.layers(null, wms).addTo(map.value);
 
   map.value.on("click", function (e) {
-    alert(typeof(e.latlng.lng))
-  }); // -----> definir evento de click
+    sendCoordinates(e.latlng.lat, e.latlng.lng)
+  });
 });
 </script>
 
@@ -61,5 +67,6 @@ onMounted(() => {
 #map {
   height: 100vh;
   z-index: 1;
+  cursor:crosshair;
 }
 </style>

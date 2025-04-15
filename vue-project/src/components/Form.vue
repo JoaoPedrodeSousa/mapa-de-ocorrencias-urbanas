@@ -8,11 +8,11 @@
         <FormField class="input-container" type="date" name="Data de Registro" id="data" v-model="date"/>
         <FormField class="input-container" type="textarea" name="Descrição do Problema" id="descricao" v-model="description" />
         <div class="input-container">
-          <label>Coordenadas</label>
+          <h2>Coordenadas</h2>
           
           <div class="coordinates-container">
-            <FormField class="coordinates" type="text" name="X" id="X" v-model="x"/>
-            <FormField class="coordinates" type="text" name="Y" id="Y" v-model="y"/>
+            <p class="coordinates">Lat:<span>{{lat.toFixed(6)}}</span></p>
+            <p class="coordinates">Lng:<span>{{lng.toFixed(6)}}</span></p>
           </div>
         </div>
         <button>ENVIAR</button>
@@ -28,8 +28,12 @@ import { ref } from "vue";
 const category = ref('')
 const description = ref('')
 const date = ref(null)
-const x = ref(0)
-const y = ref(0)
+
+const props = defineProps({
+  lng:Number,
+  lat:Number,
+})
+
 
 function sendForm(){
 
@@ -65,8 +69,9 @@ form{
     gap: 0.25rem;
 }
 
-label{
+h2{
   font-size: 1.2rem;
+  font-weight: normal;
 }
 
 .coordinates-container{
@@ -78,6 +83,25 @@ label{
 .coordinates {
   display: flex;
   place-items: center;
+}
+
+p{
+  display: grid;
+  gap: 0.5rem;
+  font-size: 1.2rem;
+}
+
+p span{
+    padding: 0.6rem;
+    border: 2px solid #2A2A2A;
+    background-color: #181818;
+    box-shadow: none;
+    box-sizing: border-box;
+    font-size: 1rem;
+    width: 10rem;
+    max-width: 100%;
+    font-style: italic;
+    color: #E0E0E0;
 }
 
 button{
