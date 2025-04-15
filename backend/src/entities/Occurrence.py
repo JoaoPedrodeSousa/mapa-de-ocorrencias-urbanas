@@ -3,7 +3,7 @@ from shapely import Point
 from datetime import datetime
 
 @dataclass
-class Occurence():
+class Occurrence():
     id: int | None
     category_id: int
     description: str

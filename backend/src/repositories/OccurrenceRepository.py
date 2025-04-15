@@ -1,12 +1,12 @@
-from src.entities.Occurrence import Occurence
+from src.entities.Occurrence import Occurrence
 from abc import ABC, abstractmethod
 
-class OccurenceRepository(ABC):
+class OccurrenceRepository(ABC):
     @abstractmethod
-    def save(self, occurence:Occurence) -> None: ...
+    def save(self, occurrence:Occurrence) -> None: ...
     
     @abstractmethod
-    def find(self, id:id) -> Occurence: ...
+    def find(self, id:id) -> Occurrence: ...
     
     @abstractmethod
     def findAll(self) -> list: ...

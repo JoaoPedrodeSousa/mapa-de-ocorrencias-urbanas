@@ -6,12 +6,12 @@ from datetime import datetime
 
 from src.errors.OutsideDistritoFederalError import OutsideDistritoFederalError
 
-from src.entities.Occurrence import Occurence
-from src.repositories.OccurrenceRepository import OccurenceRepository
+from src.entities.Occurrence import Occurrence
+from src.repositories.OccurrenceRepository import OccurrenceRepository
 
 class OccurrenceService():
-    def __init__(self, occurenceRepository:OccurenceRepository):
-        self._occurence_repository = occurenceRepository
+    def __init__(self, occurrenceRepository:OccurrenceRepository):
+        self._occurrence_repository = occurrenceRepository
 
     def save(self, category_id, description, coordinates) -> dict:
         try:
@@ -22,7 +22,7 @@ class OccurrenceService():
             
             self.isValidGeom(geom)
 
-            occurence = Occurence(
+            occurrence = Occurrence(
                 id = None,
                 category_id = category_id,
                 description = description,
@@ -30,9 +30,9 @@ class OccurrenceService():
                 geom = geom
             )
 
-            self._occurence_repository.save(occurence = occurence)
+            self._occurrence_repository.save(occurrence = occurrence)
         
-            features = self._make_feature(occurence)
+            features = self._make_feature(occurrence)
             geojson = self._make_geojson([features])
 
             return geojson
@@ -40,35 +40,35 @@ class OccurrenceService():
         except Exception as e:
             raise OutsideDistritoFederalError()
 
-    def find(self, id) -> Occurence:
-        occurence = self._occurence_repository.find(id=id)
-        features = self._make_feature(occurence)
+    def find(self, id) -> Occurrence:
+        occurrence = self._occurrence_repository.find(id=id)
+        features = self._make_feature(occurrence)
         geojson = self._make_geojson([features])
 
         return geojson
 
     def findAll(self) -> list:
-        ocurrences = self._occurence_repository.findAll()
+        occurrences = self._occurrence_repository.findAll()
 
         features = [
-            self._make_feature(occurence) 
-            for occurence in ocurrences
+            self._make_feature(occurrence) 
+            for occurrence in occurrences
         ]
         
         geojson = self._make_geojson(features)
         return geojson
     
-    def _make_feature(self, occurence:Occurence):
+    def _make_feature(self, occurrence:Occurrence):
         return {
             "type": "Feature",
             "geometry": {
                 "type": "Point",
-                "coordinates": [occurence.geom.x, occurence.geom.y]},
+                "coordinates": [occurrence.geom.x, occurrence.geom.y]},
             "properties": {
-                "id": occurence.id,
-                "category_id": occurence.category_id,
-                "description": occurence.description,
-                "date": occurence.date.isoformat()
+                "id": occurrence.id,
+                "category_id": occurrence.category_id,
+                "description": occurrence.description,
+                "date": occurrence.date.isoformat()
             }
         }
     
