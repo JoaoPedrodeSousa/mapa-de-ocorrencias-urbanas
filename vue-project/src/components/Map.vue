@@ -1,13 +1,23 @@
 <template>
-  <div id="map"></div>
+  <div class="map-container">
+    <div id="map"></div>
+    <Modal :success='success'/>
+  </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, defineProps } from "vue";
 import "leaflet/dist/leaflet.css";
 import * as L from "leaflet";
+import Modal from "./Modal.vue";
 
 const map = ref(null);
+
+const props = defineProps({
+    success:Boolean,
+    lat:Number,
+    lng:Number
+})
 
 const wmsOptions = {
   layers: "limites_df:limites_df",
@@ -18,7 +28,7 @@ const wmsOptions = {
 
 onMounted(() => {
   map.value = L.map("map", {
-    center: [-15.7801, -47.7292],
+    center: [-15.7801, -47.7892],
     zoom: 10,
   });
 
@@ -37,13 +47,19 @@ onMounted(() => {
 
   L.control.layers(null, wms).addTo(map.value);
 
-  // map.value.on("click", function (e) {
-  // }); // -----> definir evento de click
+  map.value.on("click", function (e) {
+    alert(typeof(e.latlng.lng))
+  }); // -----> definir evento de click
 });
 </script>
 
 <style scoped>
+.map-container{
+  position: relative;
+}
+
 #map {
-  height: 90vh;
+  height: 100vh;
+  z-index: 1;
 }
 </style>

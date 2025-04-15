@@ -1,6 +1,6 @@
 <template>
   <Transition name="fade">
-    <div v-if="success === 'true'" class="modal success">
+    <div v-if="success" class="modal success">
       <div class="image">
         <img src="../assets/check.png" alt="check" />
       </div>
@@ -9,7 +9,7 @@
   </Transition>
 
   <Transition name="fade">
-    <div v-if="success === 'false'" class="modal failed">
+    <div v-if="!success" class="modal failed">
       <div class="image">
         <img src="../assets/unchecked.png" alt="check" />
       </div>
@@ -22,9 +22,9 @@
 import { defineProps } from 'vue';
 
 const props = defineProps({
-    success:Boolean
+    success:Boolean,
+    load:String
 })
-
 </script>
 
 <style scoped>
@@ -33,9 +33,14 @@ const props = defineProps({
   justify-content: center;
   align-items: center;
   gap: 0.25rem;
-  width: 23rem;
+  width: 22rem;
   padding: 1rem 0.5rem;
   height: 1rem;
+  position: absolute;
+  transform: translateX(-50%);
+  top: 0.5rem;
+  left: 50%;
+  z-index: 2;
 }
 .image img {
   height: 1.4rem;        
@@ -56,7 +61,7 @@ const props = defineProps({
 }
 .fade-enter-active,
 .fade-leave-active {
-  transition: all 0.4s ease;
+  transition: all 1s ease;
 }
 .fade-enter-from {
   opacity: 0;
@@ -64,7 +69,6 @@ const props = defineProps({
 }
 .fade-leave-to {
   opacity: 0;
-  transform: translateY(-10px);
+  transform: translateY(0px);
 }
-
 </style>

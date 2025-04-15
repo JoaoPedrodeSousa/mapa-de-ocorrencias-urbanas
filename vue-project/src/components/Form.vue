@@ -46,6 +46,7 @@ section{
   padding: 0 1.5rem;
   color: #e0e0e0;
   background: linear-gradient(180deg, #121212 0%, #1E1E1E 100%);
+  border-left: 3px solid #1DB954;
 }
 
 h1{
