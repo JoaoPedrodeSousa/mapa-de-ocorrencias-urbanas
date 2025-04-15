@@ -1,21 +1,21 @@
 <template>
   <div class="input-container">
     <label :for="id">{{ name }}</label>
-    <input :type="type" :name="name" :id="id" v-model="value"  @input="handleInput"/>
+    <input :type="type" :name="name" :id="id" :value="modelValue"  @input="$emit('update:modelValue', $event.target.value)"/>
   </div>
 </template>
 
 <script setup>
-import { ref, defineProps } from "vue";
-
-const value = ref(null)
+import { defineProps } from "vue";
 
 const props = defineProps({
   type: String,
   name: String,
   id: String,
-  src:String
+  src:String,
+  modelValue: [String, Number]
 });
+
 </script>
 
 <style scoped>

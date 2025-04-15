@@ -2,19 +2,18 @@
   <section>
     <h1>Cadastro de Ocorrências Urbanas</h1>
     <div class="form-container">
-      <form>
-        <CategoryField class="input-container" name="Categoria"/>
-        <FormField class="input-container" type="date" name="Data de Registro" id="data" @changeValue="setValue"/>
-        <FormField class="input-container" type="text" name="Descrição do Problema" id="descricao" @changeValue="setValue" />
+      <form @submit.prevent="sendForm">
+        <CategoryField class="input-container" name="Categoria" v-model="category"/>
+        <FormField class="input-container" type="date" name="Data de Registro" id="data" v-model="date"/>
+        <FormField class="input-container" type="text" name="Descrição do Problema" id="descricao" v-model="description" />
 
         <div class="input-container">
           <label>Coordenadas</label>
           <div class="coordinates-container">
-            <FormField class="coordinates" type="text" name="x:" id="X" @changeValue="setValue"/>
-            <FormField class="coordinates" type="text" name="y:" id="Y" @changeValue="setValue"/>
+            <FormField class="coordinates" type="text" name="X" id="X" v-model="x"/>
+            <FormField class="coordinates" type="text" name="Y" id="Y" v-model="y"/>
           </div>
         </div>
-  
         <button>ENVIAR</button>
       </form>
     </div>
@@ -26,24 +25,14 @@ import FormField from "./FormField.vue";
 import CategoryField from "./CategoryField.vue";
 import { ref } from "vue";
 
-const category = ref(null)
+const category = ref('')
 const description = ref('')
 const date = ref(null)
 const x = ref(0)
 const y = ref(0)
 
-function setValue({id, value}){
-  if (id === 'descricao') {
-    description.value = value
-  } else if (id === 'data') {
-    date.value = value
-  } else if (id === 'categoria') {
-    category.value = value
-  } else if (id === 'X') {
-    x.value = value
-  } else if (id === 'Y') {
-    y.value = value
-  }
+function sendForm(){
+  
 }
 </script>
 

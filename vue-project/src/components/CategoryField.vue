@@ -1,8 +1,8 @@
 <template>
   <div class="input-container">
     <label :for="name">{{ name }}</label>
-    <select :name="name" id="category">
-      <option v-for="(category) in categories" :key="category.id" :value="category.name">{{category.name}}</option>
+    <select :name="name" id="category" :value="modelValue" @change="$emit('update:modelValue', $event.target.value)">
+      <option v-for="(category) in categories" :key="category.id" >{{category.name}}</option>
     </select>
   </div>
 </template>
@@ -10,20 +10,15 @@
 <script setup>
 import { defineProps, ref, onMounted } from 'vue';
 
-const withinData = ref(true)
 const categories = ref([])
 
 const props = defineProps({
-  name:String
+  name:String,
+  modelValue: String
 })
 
 onMounted(async () => {
   const response = await fetch('http://127.0.0.1:5000/category')
-
-  if (!response.ok){
-    withinData.value = false
-    throw new Error('Erro na requisição')
-  }
   
   categories.value = await response.json()
 })
