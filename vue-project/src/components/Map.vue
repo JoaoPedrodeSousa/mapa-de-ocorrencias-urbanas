@@ -32,7 +32,18 @@ const wmsOptions = {
   version: "1.1.0",
 };
 
-onMounted(() => {
+async function fetchWFS(){
+  const URL = "http://localhost:5000/wfs/occurrence"
+  const response = await fetch(URL)
+  const data = await response.json()
+
+  return await data
+}
+
+onMounted(async () => {
+
+
+
   map.value = L.map("map", {
     center: [-15.7801, -47.7892],
     zoom: 10,
@@ -46,6 +57,25 @@ onMounted(() => {
   const limite_df = L.tileLayer
     .wms("http://localhost:8082/geoserver/limites_df/wms?", wmsOptions)
     .addTo(map.value);
+
+  const wfs = await fetchWFS();
+  const ocorrencias_df = L.geoJSON(wfs, {
+    pointToLayer: function (feature,latlng){
+      const properties = feature.properties
+      const category_id = properties.categoria_id
+      
+      const icon = L.icon({
+        iconUrl: '/icons/' + category_id + '.png',
+        iconSize: [32, 32],
+        iconAnchor: [16, 32],
+        popupAnchor: [0, -32]
+      });
+
+      return L.marker(latlng, {icon: icon})
+
+    }
+  }).addTo(map.value);
+
 
   const wms = {
     "Limite DF": limite_df,
@@ -69,4 +99,5 @@ onMounted(() => {
   z-index: 1;
   cursor:crosshair;
 }
+
 </style>
