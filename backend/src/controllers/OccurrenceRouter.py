@@ -11,7 +11,9 @@ from src.repositories.impl.CategorySQLAlchemy import CategorySQLAlchemy
 
 app = server.get_app()
 
-repository = OccurrenceSQLAlchemy()
+repository_occurrence = OccurrenceSQLAlchemy()
+repository_category = CategorySQLAlchemy()
+
 
 @app.route("/occurrence", methods = ["POST"])
 def create_occurrence():
@@ -23,7 +25,7 @@ def create_occurrence():
     coordinates = data.get('geometry')
 
     try:
-        occurrence_service = OccurrenceService(repository)
+        occurrence_service = OccurrenceService(repository_occurrence, repository_category)
     except KeyError as e :
         return make_response(jsonify({
             "error": "Elemento faltando na requisição. " + str(e),
@@ -40,7 +42,7 @@ def create_occurrence():
 
 @app.route("/occurrence/<int:id>", methods = ["GET"])
 def find_occurrence(id):
-    occurrence_service = OccurrenceService(repository)
+    occurrence_service = OccurrenceService(repository_occurrence, repository_category)
     geojson = occurrence_service.find(id=id)
 
     return make_response(jsonify(geojson),200)
@@ -48,7 +50,14 @@ def find_occurrence(id):
 
 @app.route("/occurrence", methods = ["GET"])
 def find_all_occurrence():
-    occurrence_service = OccurrenceService(repository)
+    occurrence_service = OccurrenceService(repository_occurrence, repository_category)
     geojson = occurrence_service.findAll()
+
+    return make_response(jsonify(geojson),200)
+
+@app.route("/wfs/occurrence", methods = ["GET"])
+def find_all_occurrence_wfs():
+    occurrence_service = OccurrenceService(repository_occurrence, repository_category)
+    geojson = occurrence_service.findAllWithGeoserver()
 
     return make_response(jsonify(geojson),200)
