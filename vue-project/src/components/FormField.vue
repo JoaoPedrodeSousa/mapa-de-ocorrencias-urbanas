@@ -26,7 +26,7 @@
 </template>
 
 <script setup>
-import { defineProps, ref, onMounted } from 'vue';
+import { defineProps, ref, onMounted, readonly } from 'vue';
 
 const categories = ref([])
 

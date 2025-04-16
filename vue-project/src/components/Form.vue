@@ -3,9 +3,10 @@
     <h1>Cadastro de Ocorrências Urbanas</h1>
     <div class="form-container">
       <form @submit.prevent="handleForm">
-        <FormField class="input-container" type="select" name="Categoria" id="categoria" v-model="category"/>
+        <FormField @change="changeCategory" class="input-container" type="select" name="Categoria" id="categoria" v-model="category"/>
 
         <FormField class="input-container" type="date" name="Data de Registro" id="data" v-model="datetime"/>
+
         <FormField class="input-container" type="textarea" name="Descrição do Problema" id="descricao" v-model="description" />
 
         <div class="input-container">
@@ -35,10 +36,15 @@ const props = defineProps({
 })
 
 const success = ref(null)
-const emit = defineEmits(['handleSubmit'])
+const emit = defineEmits(['handleSuccess', 'handleCategory'])
+
+function changeCategory(){
+  emit('handleCategory', category.value)
+}
 
 function isSuccess(){
-  emit('handleSubmit', success.value)
+  emit('handleSuccess', success.value)
+  success.value = null
 }
 
 async function handleForm(){
