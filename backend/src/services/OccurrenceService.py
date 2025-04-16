@@ -2,9 +2,8 @@ import requests
 
 from shapely import Point
 from shapely.geometry import shape
-from datetime import datetime
-
 from src.errors.OutsideDistritoFederalError import OutsideDistritoFederalError
+from datetime import datetime
 
 from src.entities.Occurrence import Occurrence
 from src.repositories.OccurrenceRepository import OccurrenceRepository
@@ -13,32 +12,35 @@ class OccurrenceService():
     def __init__(self, occurrenceRepository:OccurrenceRepository):
         self._occurrence_repository = occurrenceRepository
 
-    def save(self, category_id, description, coordinates) -> dict:
+    def save(self, category_id, date, description, coordinates) -> dict:
+        x = coordinates[0]
+        y = coordinates[1]
+        
+        geom = Point(x,y)
+
+        date_obj = datetime.strptime(date, "%Y-%m-%d")
+        dateformatter = date_obj.strftime("%Y-%m-%d")
+
         try:
-            x = coordinates[0]
-            y = coordinates[1]
-
-            geom = Point(x,y)
-            
             self.isValidGeom(geom)
-
-            occurrence = Occurrence(
-                id = None,
-                category_id = category_id,
-                description = description,
-                date = datetime.now(),
-                geom = geom
-            )
-
-            self._occurrence_repository.save(occurrence = occurrence)
-        
-            features = self._make_feature(occurrence)
-            geojson = self._make_geojson([features])
-
-            return geojson
-        
         except Exception as e:
             raise OutsideDistritoFederalError()
+
+        occurrence = Occurrence(
+            id = None,
+            category_id = category_id,
+            description = description,
+            date = dateformatter,
+            geom = geom
+        )
+
+        self._occurrence_repository.save(occurrence = occurrence)
+    
+        features = self._make_feature(occurrence)
+        geojson = self._make_geojson([features])
+
+        return geojson
+        
 
     def find(self, id) -> Occurrence:
         occurrence = self._occurrence_repository.find(id=id)
@@ -68,7 +70,7 @@ class OccurrenceService():
                 "id": occurrence.id,
                 "category_id": occurrence.category_id,
                 "description": occurrence.description,
-                "date": occurrence.date.isoformat()
+                "date": occurrence.date
             }
         }
     
