@@ -1,7 +1,7 @@
 <template>
   <div class="container">
-    <Map @handleClick="updateLatLng"/>
-    <Form :lng="longitude" :lat="latitude"/>
+    <Map @handleClick="updateLatLng" :success="success"/>
+    <Form @handleSubmit="updateSuccess" :lng="longitude" :lat="latitude"/>
   </div>
 </template>
 
@@ -12,10 +12,11 @@ import { ref } from "vue";
 
 const latitude = ref(0)
 const longitude = ref(0)
+const success = ref('')
 
-const props = defineProps({
-  success:Boolean
-})
+function updateSuccess(value){
+  success.value = value
+}
 
 function updateLatLng(coordinates){
   latitude.value = coordinates.lat

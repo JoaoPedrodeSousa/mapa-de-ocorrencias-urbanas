@@ -1,6 +1,6 @@
 <template>
   <Transition name="fade">
-    <div v-if="success" class="modal success">
+    <div v-if="localSuccess === 'true'" class="modal success">
       <div class="image">
         <img src="../assets/check.png" alt="check" />
       </div>
@@ -9,7 +9,7 @@
   </Transition>
 
   <Transition name="fade">
-    <div v-if="!success" class="modal failed">
+    <div v-if="localSuccess === 'false'" class="modal failed">
       <div class="image">
         <img src="../assets/unchecked.png" alt="check" />
       </div>
@@ -19,13 +19,25 @@
 </template>
 
 <script setup>
-import { defineProps } from 'vue';
+import { defineProps, ref, watch } from 'vue';
 
 const props = defineProps({
-    success:Boolean,
-    load:String
-})
+  success: String,
+});
+
+const localSuccess = ref(null);
+
+watch(() => props.success, (value) => {
+  if (value === 'true' || value === 'false') {
+    localSuccess.value = value;
+
+    setTimeout(() => {
+      localSuccess.value = null;
+    }, 4000);
+  }
+});
 </script>
+
 
 <style scoped>
 .modal {

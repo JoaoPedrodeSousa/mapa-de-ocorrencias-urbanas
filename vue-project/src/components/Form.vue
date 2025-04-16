@@ -23,17 +23,23 @@
 
 <script setup>
 import FormField from "./FormField.vue";
-import { ref } from "vue";
+import { ref, defineProps, defineEmits } from "vue";
 
 const category = ref('')
 const description = ref('')
 const datetime = ref(null)
-const success = ref(null)
 
 const props = defineProps({
   lng:Number,
   lat:Number,
 })
+
+const success = ref(null)
+const emit = defineEmits(['handleSubmit'])
+
+function isSuccess(){
+  emit('handleSubmit', success.value)
+}
 
 async function handleForm(){
   const body = {
@@ -51,9 +57,9 @@ async function handleForm(){
     body: JSON.stringify(body)
     })
   
-  if(response.ok) success.value = true
-  else if (response.status === 400) success.value = 'A geometria precisa estar dento do Distrito Federal.'
-  else success.value = false
+  if(response.ok) success.value = 'true'
+  else if (!response.ok) success.value = 'false'
+  isSuccess()
 }
 </script>
 

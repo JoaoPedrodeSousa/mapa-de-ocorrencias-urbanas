@@ -14,7 +14,7 @@ import Modal from "./Modal.vue";
 const map = ref(null);
 
 const props = defineProps({
-    success:Boolean
+    success:String
 })
 
 const emit = defineEmits(["handleClick"])
