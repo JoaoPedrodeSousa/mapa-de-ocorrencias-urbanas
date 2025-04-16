@@ -15,7 +15,7 @@
       :value="modelValue" 
       @change="$emit('update:modelValue', $event.target.value)">
 
-      <option v-for="(category) in categories" :key="category.id" >
+      <option v-for="(category) in categories" :key="category.id" :value="category.id">
         {{category.name}}
       </option>
 

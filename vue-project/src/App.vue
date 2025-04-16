@@ -20,8 +20,6 @@ const props = defineProps({
 function updateLatLng(coordinates){
   latitude.value = coordinates.lat
   longitude.value = coordinates.lng
-  console.log(latitude.value)
-  console.log(longitude.value)
 }
 
 </script>

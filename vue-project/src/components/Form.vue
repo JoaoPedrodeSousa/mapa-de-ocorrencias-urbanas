@@ -2,20 +2,20 @@
   <section>
     <h1>Cadastro de Ocorrências Urbanas</h1>
     <div class="form-container">
-      <form @submit.prevent="sendForm">
+      <form @submit.prevent="handleForm">
         <FormField class="input-container" type="select" name="Categoria" id="categoria" v-model="category"/>
 
-        <FormField class="input-container" type="date" name="Data de Registro" id="data" v-model="date"/>
+        <FormField class="input-container" type="date" name="Data de Registro" id="data" v-model="datetime"/>
         <FormField class="input-container" type="textarea" name="Descrição do Problema" id="descricao" v-model="description" />
+
         <div class="input-container">
           <h2>Coordenadas</h2>
-          
           <div class="coordinates-container">
             <p class="coordinates">Lat:<span>{{lat.toFixed(6)}}</span></p>
             <p class="coordinates">Lng:<span>{{lng.toFixed(6)}}</span></p>
           </div>
         </div>
-        <button>ENVIAR</button>
+        <button type="submit">ENVIAR</button>
       </form>
     </div>
   </section>
@@ -27,16 +27,33 @@ import { ref } from "vue";
 
 const category = ref('')
 const description = ref('')
-const date = ref(null)
+const datetime = ref(null)
+const success = ref(null)
 
 const props = defineProps({
   lng:Number,
   lat:Number,
 })
 
+async function handleForm(){
+  const body = {
+    category: category.value,
+    datetime: datetime.value,
+    description: description.value,
+    geometry: [props.lng,props.lat]
+  }
 
-function sendForm(){
-
+  const response = await fetch('http://localhost:5000/occurrence',{
+    method: 'POST',
+    headers:{
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(body)
+    })
+  
+  if(response.ok) success.value = true
+  else if (response.status === 400) success.value = 'A geometria precisa estar dento do Distrito Federal.'
+  else success.value = false
 }
 </script>
 
