@@ -19,7 +19,7 @@ const wmsOptions = {
 };
 
 async function getWFS(){
-  const URL = "http://localhost:5000/wfs/occurrence"
+  const URL = "http://localhost:5000/occurrence"
   const response = await fetch(URL)
   const data = await response.json()
 
@@ -56,7 +56,7 @@ function getOccurrences(map, geojson){
   L.geoJSON(geojson, {
     pointToLayer: function (feature,latlng){
       const properties = feature.properties;
-      const category_id = properties.categoria_id;
+      const category_id = properties.category_id;
       
       const icon =  makeIcon(category_id)
 
@@ -69,7 +69,7 @@ function getOccurrences(map, geojson){
 
       let popup = "";
       for (const propertie in properties){
-        if (propertie === 'id' || propertie === 'categoria_id') continue;
+        if (propertie === 'id' || propertie === 'category_id') continue;
         const newPropertie = propertie[0].toUpperCase() + propertie.substring(1)
 
         popup += `<p><strong>${newPropertie.replace("_"," ")}:</strong> ${feature.properties[propertie]}</p>`

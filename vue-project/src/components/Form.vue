@@ -130,6 +130,10 @@ form {
   display: grid;
   gap: 0.25rem;
 }
+label, h2 {
+  font-size: 1.2rem;
+  font-weight: normal;
+}
 .input-container{
   display: flex;
   align-items: center;
@@ -146,12 +150,10 @@ form {
   width: 24px;
   height:24px;
 }
-label, h2 {
-  font-size: 1.2rem;
-  font-weight: normal;
-}
-
-input, textarea, select, p span {
+input, 
+textarea, 
+select, 
+p span {
   all: unset;
   padding: 0.6rem;
   font-size: 1rem;
@@ -161,14 +163,16 @@ input, textarea, select, p span {
   box-sizing: border-box;
   width: 100%;
 }
-
-input:hover, input:focus,
-textarea:hover, textarea:focus,
+input:hover, 
+input:focus,
+textarea:hover, 
+textarea:focus,
 select:hover {
   border-color: #1DB954;
-  
 }
-
+select {
+  appearance: none;
+}
 textarea {
   resize: vertical;
   min-height: 60px;
@@ -176,28 +180,20 @@ textarea {
   overflow-y: auto;
   word-break: break-word;
 }
-
-select {
-  appearance: none;
-}
-
 .coordinates-container {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1rem;
 }
-
 .coordinates {
   display: flex;
   align-items: center;
   font-size: 1.2rem;
 }
-
 p span {
   font-style: italic;
   width: 10rem;
 }
-
 button {
   padding: 0.5rem;
   font-size: 1rem;
@@ -207,7 +203,6 @@ button {
   border: 2px solid transparent;
   cursor: pointer;
 }
-
 button:hover {
   background-color: #1ED760;
 }

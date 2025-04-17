@@ -14,6 +14,9 @@ class OccurrenceService():
         self._occurrence_repository = occurrenceRepository
         self._category_repository = categoryRepository
 
+    def find(self, id) -> Occurrence:
+        return self._occurrence_repository.find(id=id)
+
     def save(self, category_id, date, description, coordinates) -> dict:
         x = coordinates[0]
         y = coordinates[1]
@@ -24,60 +27,43 @@ class OccurrenceService():
         dateformatter = date_obj.strftime("%Y-%m-%d")
 
         try:
-            self.isValidGeom(geom)
+            self.is_valid_geometry(geom)
+            occurrence = Occurrence(
+                id = None,
+                category_id = category_id,
+                description = description,
+                date = dateformatter,
+                geom = geom
+            )
+
+            self._occurrence_repository.save(occurrence = occurrence)
+            return occurrence
+        
         except Exception as e:
             raise OutsideDistritoFederalError()
 
-        occurrence = Occurrence(
-            id = None,
-            category_id = category_id,
-            description = description,
-            date = dateformatter,
-            geom = geom
-        )
-
-        self._occurrence_repository.save(occurrence = occurrence)
-    
-        return occurrence
-        
-
-    def find(self, id) -> Occurrence:
-        return self._occurrence_repository.find(id=id)
-
     def findAll(self) -> list:
-        return self._occurrence_repository.findAll()
-    
-    def findAllWithGeoserver(self) -> list:
-        wfs_occurrences = requests.get("http://geoserver:8080/geoserver/limites_df/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=limites_df%3Aocorrencias&maxFeatures=50&outputFormat=application/json") #lista de geojson
+        wfs_occurrences = requests.get("http://geoserver:8080/geoserver/limites_df/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=limites_df%3Aocorrencias&maxFeatures=50&outputFormat=application/json")
 
         wfs_occurrences = wfs_occurrences.json()
-        categories_hashmap = self._make_hashmap()
-
+        occurrences = []
         features = wfs_occurrences["features"]
         for feature in features:
+            x = feature["geometry"]["coordinates"][0]
+            y = feature["geometry"]["coordinates"][1]
             
-            properties:dict = feature["properties"]
-            categoria_id = properties["categoria_id"]
-            
-            properties["id"] = int(feature["id"][-1])
-            properties["categoria"] = categories_hashmap[categoria_id]
+            properties = feature["properties"]
+            occurence = Occurrence(
+                id = int(feature["id"].split(".")[1]),
+                category_id = properties["categoria_id"],
+                date = properties['data_registro'],
+                description = properties['descricao'],
+                geom = Point(x,y)
+            )
+            occurrences.append(occurence)
 
-            feature.pop("bbox",None)
-            feature.pop("geometry_name",None)
-            feature.pop("id",None)
+        return occurrences
 
-        geojson = self._make_geojson(features)
-        return geojson
-
-    def _make_hashmap(self):
-        categories = self._category_repository.findAll()
-
-        categories_hashmap = {}
-
-        for category in categories:
-            categories_hashmap[category.id] = category.name
-
-        return categories_hashmap
 
     def _make_feature(self, occurrence:Occurrence):
         return {
@@ -99,7 +85,7 @@ class OccurrenceService():
         "features": [feature for feature in features]
     }
 
-    def isValidGeom(self, point:Point):
+    def is_valid_geometry(self, point:Point):
         wfs_df = requests.get("http://geoserver:8080/geoserver/limites_df/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=limites_df:limites_df&maxFeatures=50&outputFormat=application/json")
 
         geojson = wfs_df.json()
