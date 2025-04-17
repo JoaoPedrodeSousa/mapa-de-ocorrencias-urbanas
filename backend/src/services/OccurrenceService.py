@@ -64,27 +64,6 @@ class OccurrenceService():
 
         return occurrences
 
-
-    def _make_feature(self, occurrence:Occurrence):
-        return {
-            "type": "Feature",
-            "geometry": {
-                "type": "Point",
-                "coordinates": [occurrence.geom.x, occurrence.geom.y]},
-            "properties": {
-                "id": occurrence.id,
-                "category_id": occurrence.category_id,
-                "description": occurrence.description,
-                "date": occurrence.date
-            }
-        }
-    
-    def _make_geojson(self, features:list) -> dict:
-        return {
-        "type": "FeatureCollection",
-        "features": [feature for feature in features]
-    }
-
     def is_valid_geometry(self, point:Point):
         wfs_df = requests.get("http://geoserver:8080/geoserver/limites_df/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=limites_df:limites_df&maxFeatures=50&outputFormat=application/json")
 

@@ -2,7 +2,7 @@ from flask import request, jsonify, make_response
 
 from src.errors.OutsideDistritoFederalError import OutsideDistritoFederalError
 
-from backend.src.serializer.SerializerOccurrence import serializerOccurrence
+from src.serializer.SerializerOccurrence import serializerOccurrence
 from src.infrastructure.server import server
 from src.entities.Occurrence import Occurrence
 from src.services.OccurrenceService import OccurrenceService
@@ -50,7 +50,7 @@ def find_occurrence(id):
 @app.route("/occurrence", methods = ["GET"])
 def find_all_occurrences():
 
-    occurrences = occurrence_service.findAllWithGeoserver()
+    occurrences = occurrence_service.findAll()
 
     geojson = serializerOccurrence.to_geojson(occurrences)
 
