@@ -3,27 +3,38 @@
     <h1>Cadastro de Ocorrências Urbanas</h1>
     <div class="form-container">
       <form @submit.prevent="handleForm">
-        <div class="input-container">
+        <div class="field-container">
           <label for="category">Categoria</label>
-          <select id="category" name="category" v-model="category">
-            <option disabled value="">Selecione uma categoria</option>
-            <option v-for="(ctg) in categories" :key="ctg.id" :value="ctg.id">
-            {{ctg.name}}
+          <div class="input-container">
+            <div class="image-container">
+              <img src="../../public/icons/arrow.png" alt="">
+            </div>
+
+            <select id="category" name="category" v-model="category">
+              <option disabled value="">Selecione uma categoria</option>
+              <option v-for="(ctg) in categories" :key="ctg.id" :value="ctg.id">
+              {{ctg.name}}
             </option>
           </select>
+          </div>
         </div>
 
-        <div class="input-container">
+        <div class="field-container">
           <label for="date">Data de Registro</label>
-          <input type="date" id="date" name="date" v-model="datetime">
+          <div class="input-container">
+            <div class="image-container">
+              <img src="../../public/icons/calendar.png" alt="">
+            </div>
+              <input type="date" id="date" name="date" v-model="datetime">
+          </div>
         </div>
 
-        <div class="input-container">
+        <div class="field-container">
           <label for="description">Descrição do Problema</label>
           <textarea id="description" name="description" placeholder="Forneça um resumo da ocorrência." v-model="description"></textarea>
         </div>
 
-        <div class="input-container">
+        <div class="field-container">
           <h2>Coordenadas</h2>
           <div class="coordinates-container">
             <p class="coordinates">Lat:<span>{{lat.toFixed(6)}}</span></p>
@@ -63,7 +74,7 @@ async function handleForm(){
     description: description.value,
     geometry: [props.lng,props.lat]
   }
-  console.log(body)
+
   const response = await fetch('http://localhost:5000/occurrence',{
     method: 'POST',
     headers:{
@@ -78,7 +89,10 @@ async function handleForm(){
     description.value = ''
     datetime.value = null
   }
-  else if (!response.ok) success.value = 'false'
+
+  else if (!response.ok) {
+    success.value = 'false'
+  }
   isSuccess()
 }
 
@@ -109,16 +123,32 @@ h1 {
 
 form {
   display: grid;
-  gap: 2.5rem;
+  gap: 2rem;
 }
 
-.input-container {
+.field-container {
   display: grid;
   gap: 0.25rem;
 }
-
+.input-container{
+  display: flex;
+  align-items: center;
+}
+.image-container{
+  width: 2.5rem;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  place-content: center;
+  background-color: #1DB954;
+}
+.input-container img{
+  width: 24px;
+  height:24px;
+}
 label, h2 {
   font-size: 1.2rem;
+  font-weight: normal;
 }
 
 input, textarea, select, p span {
@@ -129,13 +159,14 @@ input, textarea, select, p span {
   background-color: #181818;
   color: #E0E0E0;
   box-sizing: border-box;
-  max-width: 100%;
+  width: 100%;
 }
 
 input:hover, input:focus,
 textarea:hover, textarea:focus,
 select:hover {
   border-color: #1DB954;
+  
 }
 
 textarea {
