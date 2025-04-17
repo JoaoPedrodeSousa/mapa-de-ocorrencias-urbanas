@@ -38,29 +38,14 @@ class OccurrenceService():
 
         self._occurrence_repository.save(occurrence = occurrence)
     
-        features = self._make_feature(occurrence)
-        geojson = self._make_geojson([features])
-
-        return geojson
+        return occurrence
         
 
     def find(self, id) -> Occurrence:
-        occurrence = self._occurrence_repository.find(id=id)
-        features = self._make_feature(occurrence)
-        geojson = self._make_geojson([features])
-
-        return geojson
+        return self._occurrence_repository.find(id=id)
 
     def findAll(self) -> list:
-        occurrences = self._occurrence_repository.findAll()
-
-        features = [
-            self._make_feature(occurrence) 
-            for occurrence in occurrences
-        ]
-        
-        geojson = self._make_geojson(features)
-        return geojson
+        return self._occurrence_repository.findAll()
     
     def findAllWithGeoserver(self) -> list:
         wfs_occurrences = requests.get("http://geoserver:8080/geoserver/limites_df/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=limites_df%3Aocorrencias&maxFeatures=50&outputFormat=application/json") #lista de geojson
