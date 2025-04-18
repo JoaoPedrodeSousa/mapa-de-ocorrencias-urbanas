@@ -30,7 +30,9 @@ services:
     ports:
       - 8082:8080
     volumes:
-      - ./data_geoserver:/opt/geoserver/data_dir
+      - ./publish_layers.sh:/publish_layers.sh
+      - ./shapefile:/shapefile
+      - ./shapefile:/estilos
     container_name: geoserver
     restart: always
     environment:
@@ -38,6 +40,12 @@ services:
       - GEOSERVER_ADMIN_PASSWORD=geoserver
     depends_on:
       - postgis
+    # command: >
+    #   /bin/bash -c "
+    #     chmod +x /publish_layers.sh &&
+    #     /publish_layers.sh &&
+    #     tail -f /opt/geoserver/logs/geoserver.log"
+
   postgis:
     image: postgis/postgis
     ports:
@@ -48,7 +56,7 @@ services:
     restart: always
     volumes:
       - dados_geoserver:/var/lib/postgresql/data
-
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
 volumes:
   dados_geoserver:
   cache_flask:
