@@ -2,6 +2,7 @@
   <div class="map-container">
     <div id="map"></div>
     <Modal :success='success'/>
+    <MapLegend :categories="categories"/>
   </div>
 </template>
 
@@ -10,6 +11,7 @@ import { ref, onMounted, defineProps, defineEmits} from "vue";
 import "leaflet/dist/leaflet.css";
 import * as L from "leaflet";
 import Modal from "./Modal.vue";
+import MapLegend from "./MapLegend.vue";
 
 const map = ref(null);
 const marker = ref(null);
@@ -78,7 +80,7 @@ function getOccurrences(map, geojson){
 };
 
 function createIcon(category_id){
-  const ICON_URL = category_id ? `/icons/${category_id}.png` : '/icons/location.png'
+  const ICON_URL = category_id ? `/icons/${category_id}.png` : 'location.png'
 
   const icon = L.icon({
         iconUrl: ICON_URL,
@@ -112,10 +114,6 @@ onMounted(async () => {
     attribution:
       '&copy; Contribuidores do <a href="http://osm.org/copyright">OpenStreetMap</a>',
   }).addTo(map.value);
-
-  const limite_df = L.tileLayer
-    .wms("http://localhost:8082/geoserver/limites_df/wms?", wmsOptions)
-    .addTo(map.value);
 
   const wfs = await getWFS();
   getOccurrences(map.value, wfs)

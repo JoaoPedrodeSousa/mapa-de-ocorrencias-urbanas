@@ -7,7 +7,7 @@
           <label for="category">Categoria</label>
           <div class="input-container">
             <div class="image-container">
-              <img src="../../public/icons/arrow.png" alt="">
+              <img src="../../public/arrow.png" alt="">
             </div>
 
             <select id="category" name="category" v-model="category">
@@ -23,7 +23,7 @@
           <label for="date">Data de Registro</label>
           <div class="input-container">
             <div class="image-container">
-              <img src="../../public/icons/calendar.png" alt="">
+              <img src="../../public/calendar.png" alt="">
             </div>
               <input type="date" id="date" name="date" v-model="datetime">
           </div>
