@@ -48,10 +48,9 @@
 </template>
 
 <script setup>
-import { ref, defineProps, defineEmits, onMounted } from "vue";
+import { ref, defineProps, defineEmits } from "vue";
 
-const categories = ref([])
-const category = ref('')
+const category = ref(null)
 const description = ref('')
 const datetime = ref(null)
 const success = ref(null)
@@ -59,6 +58,7 @@ const success = ref(null)
 const props = defineProps({
   lng:Number,
   lat:Number,
+  categories:Array
 })
 
 const emit = defineEmits(['handleSuccess'])
@@ -84,22 +84,19 @@ async function handleForm(){
     })
   
   if(response.ok) {
-    success.value = 'true'
+    success.value = 201
     category.value = ''
     description.value = ''
     datetime.value = null
   }
-
+  else if (response.status === 400){
+    success.value = 400
+  }
   else if (!response.ok) {
-    success.value = 'false'
+    success.value = 500
   }
   isSuccess()
 }
-
-onMounted(async () => {
-  const response = await fetch('http://127.0.0.1:5000/category')
-  categories.value = await response.json()
-})
 </script>
 
 <style scoped>

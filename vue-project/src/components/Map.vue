@@ -6,10 +6,20 @@
 </template>
 
 <script setup>
-import { ref, onMounted, defineProps, defineEmits } from "vue";
+import { ref, onMounted, defineProps, defineEmits} from "vue";
 import "leaflet/dist/leaflet.css";
 import * as L from "leaflet";
 import Modal from "./Modal.vue";
+
+const map = ref(null);
+const marker = ref(null);
+const categoryName = ref('')
+
+const props = defineProps({
+  success:Number,
+  category:Number,
+  categories: Object
+})
 
 const wmsOptions = {
   layers: "limites_df:limites_df",
@@ -23,16 +33,8 @@ async function getWFS(){
   const response = await fetch(URL)
   const data = await response.json()
 
-  return await data
+  return data
 }
-
-const map = ref(null);
-const marker = ref(null);
-
-const props = defineProps({
-    success:String,
-    category:String
-})
 
 const emit = defineEmits(["handleClick"])
 function sendCoordinates(lat, lng){
@@ -42,23 +44,18 @@ function sendCoordinates(lat, lng){
   })
 }
 
-function makeIcon(category_id){
-  const icon = L.icon({
-        iconUrl: '/icons/' + category_id + '.png',
-        iconSize: [28, 28],
-        iconAnchor: [16, 32],
-        popupAnchor: [0, -32]
-      });
-  return icon
+function createPopupContent(key, value){
+  return`<p><strong>${key}: </strong>${value}</p>`
 }
 
 function getOccurrences(map, geojson){
+  let category_id = 0;
+
   L.geoJSON(geojson, {
     pointToLayer: function (feature,latlng){
       const properties = feature.properties;
-      const category_id = properties.category_id;
-      
-      const icon =  makeIcon(category_id)
+      category_id = properties.category_id;
+      const icon =  createIcon(category_id)
 
       return L.marker(latlng, {icon: icon})
     },
@@ -66,21 +63,44 @@ function getOccurrences(map, geojson){
       const properties = feature.properties;
       const lng = feature.geometry.coordinates[0];
       const lat = feature.geometry.coordinates[1];
+      categoryName.value = props.categories[category_id - 1].name
 
       let popup = "";
-      for (const propertie in properties){
-        if (propertie === 'id' || propertie === 'category_id') continue;
-        const newPropertie = propertie[0].toUpperCase() + propertie.substring(1)
-
-        popup += `<p><strong>${newPropertie.replace("_"," ")}:</strong> ${feature.properties[propertie]}</p>`
-      }
-      popup += `<p><strong>Latitude:</strong> ${lat}</p>`
-      popup += `<p><strong>Longitude:</strong> ${lng}</p>`
+      popup += createPopupContent('Categoria', categoryName.value)
+      popup += createPopupContent('Descrição', properties.description)
+      popup += createPopupContent('Data', properties.date)
+      popup += createPopupContent('Latitude', lat.toFixed(6))
+      popup += createPopupContent('Longitude', lng.toFixed(6))
 
       layer.bindPopup(popup)
     }
   }).addTo(map)
 };
+
+function createIcon(category_id){
+  const ICON_URL = category_id ? `/icons/${category_id}.png` : '/icons/location.png'
+
+  const icon = L.icon({
+        iconUrl: ICON_URL,
+        iconSize: [28, 28],
+        iconAnchor: [16, 32],
+        popupAnchor: [0, -32]
+      });
+  return icon
+}
+
+function createMarker(latlng) {
+  const icon = createIcon(category.value);
+  return L.marker(latlng, icon ? { icon } : undefined);
+}
+function handleCoordinates(event) {
+  if (marker.value) {
+    map.value.removeLayer(marker.value);
+  }
+
+  marker.value = createMarker(event.latlng).addTo(map.value);
+  sendCoordinates(event.latlng.lat, event.latlng.lng);
+}
 
 onMounted(async () => {
   map.value = L.map("map", {
@@ -105,20 +125,7 @@ onMounted(async () => {
   };
 
   L.control.layers(null, wms).addTo(map.value);
-
-  map.value.on("click",function (e) {
-    if(marker.value){
-      map.value.removeLayer(marker.value)
-    }
-    if (category.value){
-      const icon = makeIcon(category.value)
-      marker.value = L.marker(e.latlng,{icon:icon}).addTo(map.value)
-    } else{
-      marker.value = L.marker(e.latlng).addTo(map.value)
-    }
-
-    sendCoordinates(e.latlng.lat, e.latlng.lng)
-  });
+  map.value.on("click",(e)=> handleCoordinates(e));
 });
 </script>
 

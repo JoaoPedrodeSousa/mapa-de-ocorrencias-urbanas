@@ -1,32 +1,34 @@
 <template>
   <div class="container">
-    <Map @handleClick="updateLatLng" :success="success" :category = "category"/>
-    <Form @handleSuccess="updateSuccess" @handleCategory="updateCategory"  :lng="longitude" :lat="latitude"/>
+    <Map @handleClick="updateLatLng" :success="success" :category = "category" :categories="categories"/>
+    <Form @handleSuccess="updateSuccess" :lng="longitude" :lat="latitude" :categories="categories"/>
   </div>
 </template>
 
 <script setup>
 import Map from "./components/Map.vue";
 import Form from "./components/Form.vue";
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 
 const latitude = ref(0)
 const longitude = ref(0)
-const success = ref('')
-const category = ref(null)
+const success = ref(null)
+const categories = ref([])
+const category = ref(3)
 
 function updateSuccess(value){
   success.value = value
-}
-
-function updateCategory(value){
-  category.value = value
 }
 
 function updateLatLng(coordinates){
   latitude.value = coordinates.lat
   longitude.value = coordinates.lng
 }
+
+onMounted(async () => {
+  const response = await fetch('http://127.0.0.1:5000/category')
+  categories.value = await response.json()
+})
 
 </script>
 

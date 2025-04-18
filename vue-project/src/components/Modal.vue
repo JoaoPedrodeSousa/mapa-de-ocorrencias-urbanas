@@ -1,6 +1,6 @@
 <template>
   <Transition name="fade">
-    <div v-if="localSuccess === 'true'" class="modal success">
+    <div v-if="localSuccess === 201" class="modal success">
       <div class="image">
         <img src="../assets/check.png" alt="check" />
       </div>
@@ -9,7 +9,16 @@
   </Transition>
 
   <Transition name="fade">
-    <div v-if="localSuccess === 'false'" class="modal failed">
+    <div v-if="localSuccess === 400" class="modal failed">
+      <div class="image">
+        <img src="../assets/unchecked.png" alt="check" />
+      </div>
+      <p>Ponto marcado fora do Distrito Federal.</p>
+    </div>
+  </Transition>
+
+  <Transition name="fade">
+    <div v-if="localSuccess === 500" class="modal failed">
       <div class="image">
         <img src="../assets/unchecked.png" alt="check" />
       </div>
@@ -22,13 +31,13 @@
 import { defineProps, ref, watch } from 'vue';
 
 const props = defineProps({
-  success: String,
+  success: Number,
 });
 
 const localSuccess = ref(null);
 
 watch(() => props.success, (value) => {
-  if (value === 'true' || value === 'false') {
+  if (value === 201 || value === 400 || value === 500) {
     localSuccess.value = value;
 
     setTimeout(() => {
@@ -45,7 +54,7 @@ watch(() => props.success, (value) => {
   justify-content: center;
   align-items: center;
   gap: 0.25rem;
-  width: 22rem;
+  width: max-content;
   padding: 1rem 0.5rem;
   height: 1rem;
   position: absolute;
