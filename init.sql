@@ -37,12 +37,12 @@ CREATE INDEX IF NOT EXISTS idx_ocorrencias_geom
     (geom)
     TABLESPACE pg_default;
 
-INSERT INTO categoria(nome) VALUES('CONCENTRAÇÃO DE LIXO');
-INSERT INTO categoria(nome) VALUES('RUA COM BURACO');
-INSERT INTO categoria(nome) VALUES('CASA COM FANTASMAS');
-INSERT INTO categoria(nome) VALUES('FOCO DE DENGUE');
-INSERT INTO categoria(nome) VALUES('PROBLEMAS COM ILUMINAÇÃO');
-INSERT INTO categoria(nome) VALUES('TRANSITO CONGESTIONADO');
-INSERT INTO categoria(nome) VALUES('ACIDENTE DE CARRO');
-INSERT INTO categoria(nome) VALUES('EVENTO CULTURAL');
-INSERT INTO categoria(nome) VALUES('FEIRA DO LIVRO');
+INSERT INTO categoria(nome) VALUES('Concentração de lixo');
+INSERT INTO categoria(nome) VALUES('Rua com buraco');
+INSERT INTO categoria(nome) VALUES('Casa com fantasmas');
+INSERT INTO categoria(nome) VALUES('Foco de Dengue');
+INSERT INTO categoria(nome) VALUES('Problemas com iluminação');
+INSERT INTO categoria(nome) VALUES('Transito Congestionado');
+INSERT INTO categoria(nome) VALUES('Acidente de carro');
+INSERT INTO categoria(nome) VALUES('Evento cultural');
+INSERT INTO categoria(nome) VALUES('Feira do livro');

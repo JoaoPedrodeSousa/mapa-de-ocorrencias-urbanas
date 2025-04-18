@@ -40,11 +40,6 @@ services:
       - GEOSERVER_ADMIN_PASSWORD=geoserver
     depends_on:
       - postgis
-    # command: >
-    #   /bin/bash -c "
-    #     chmod +x /publish_layers.sh &&
-    #     /publish_layers.sh &&
-    #     tail -f /opt/geoserver/logs/geoserver.log"
 
   postgis:
     image: postgis/postgis

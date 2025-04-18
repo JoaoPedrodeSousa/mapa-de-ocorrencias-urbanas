@@ -43,7 +43,7 @@ class OccurrenceService():
             raise OutsideDistritoFederalError()
 
     def findAll(self) -> list:
-        wfs_occurrences = requests.get("http://geoserver:8080/geoserver/limites_df/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=limites_df%3Aocorrencias&maxFeatures=50&outputFormat=application/json")
+        wfs_occurrences = requests.get("http://geoserver:8080/geoserver/ocorrencias_wks/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=ocorrencias_wks:ocorrencias&maxFeatures=50&outputFormat=application/json")
 
         wfs_occurrences = wfs_occurrences.json()
         occurrences = []
@@ -65,7 +65,7 @@ class OccurrenceService():
         return occurrences
 
     def is_valid_geometry(self, point:Point):
-        wfs_df = requests.get("http://geoserver:8080/geoserver/limites_df/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=limites_df:limites_df&maxFeatures=50&outputFormat=application/json")
+        wfs_df = requests.get("http://geoserver:8080/geoserver/ocorrencias_wks/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=ocorrencias_wks:limite_do_distrito_federal&maxFeatures=50&outputFormat=application/json")
 
         geojson = wfs_df.json()
         feature = geojson["features"][0]["geometry"]

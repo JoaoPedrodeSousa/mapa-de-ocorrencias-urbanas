@@ -24,7 +24,7 @@ const props = defineProps({
 })
 
 const wmsOptions = {
-  layers: "limites_df:limites_df",
+  layers: "ocorrencias_wks:limite_do_distrito_federal",
   format: "image/png",
   transparent: true,
   version: "1.1.0",
@@ -116,7 +116,7 @@ onMounted(async () => {
   }).addTo(map.value);
 
   L.tileLayer
-    .wms("http://localhost:8082/geoserver/limites_df/wms?", wmsOptions)
+    .wms("http://localhost:8082/geoserver/ocorrencias_wks/wms?", wmsOptions)
     .addTo(map.value);
 
   const wfs = await getWFS();
