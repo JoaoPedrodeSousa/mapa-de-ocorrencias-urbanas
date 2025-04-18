@@ -115,14 +115,13 @@ onMounted(async () => {
       '&copy; Contribuidores do <a href="http://osm.org/copyright">OpenStreetMap</a>',
   }).addTo(map.value);
 
+  L.tileLayer
+    .wms("http://localhost:8082/geoserver/limites_df/wms?", wmsOptions)
+    .addTo(map.value);
+
   const wfs = await getWFS();
   getOccurrences(map.value, wfs)
 
-  const wms = {
-    "Limite DF": limite_df,
-  };
-
-  L.control.layers(null, wms).addTo(map.value);
   map.value.on("click",(e)=> handleCoordinates(e));
 });
 </script>
