@@ -10,7 +10,7 @@
               <img src="../../public/arrow.png" alt="">
             </div>
 
-            <select id="category" name="category" v-model="category">
+            <select id="category" name="category" v-model="category" required>
               <option disabled value="">Selecione uma categoria</option>
               <option v-for="(ctg) in categories" :key="ctg.id" :value="ctg.id">
               {{ctg.name}}
@@ -25,13 +25,13 @@
             <div class="image-container">
               <img src="../../public/calendar.png" alt="">
             </div>
-              <input type="date" id="date" name="date" v-model="datetime">
+              <input type="date" id="date" name="date" v-model="datetime" required>
           </div>
         </div>
 
         <div class="field-container">
           <label for="description">Descrição do Problema</label>
-          <textarea id="description" name="description" placeholder="Forneça um resumo da ocorrência." v-model="description"></textarea>
+          <textarea id="description" name="description" placeholder="Forneça um resumo da ocorrência." v-model="description" required></textarea>
         </div>
 
         <div class="field-container">

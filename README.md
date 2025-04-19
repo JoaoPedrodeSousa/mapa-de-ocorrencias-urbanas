@@ -4,7 +4,7 @@
 
 ### Descrição do Propósito
 
-Este sistema permite o **cadastro, visualização e análise de ocorrências georreferenciadas** entro dos limites do **Distrito Federal (DF)**.
+Este sistema permite o **cadastro, visualização e análise de ocorrências georreferenciadas** dentro dos limites do **Distrito Federal (DF)**.
 
 ### Público-Alvo e Casos de Uso
 
@@ -159,4 +159,3 @@ O Geoserver é usado para publicação e consumo de dados geoespaciais:
 - O mapeamento de portas do Geoserver foi feito como 8082:8080. Isso significa que caso queira acessar o Geoserver em seu navegador, então usar a porta `8082`, caso o Geoserver seja usado internamente pela própria aplicação, então usar a porta `8080`.
 
 - Os dados inseridos estão no SRID WGS 84 - EPSG:4326 e são exibidos em WGS 84 - EPSG:3857. Isso é uma feature do Leaflet, não um bug. O CRS de exibição do mapa é diferente do CRS de dados do mapa.
-

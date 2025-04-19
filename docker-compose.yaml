@@ -30,6 +30,7 @@ services:
     ports:
       - 8082:8080
     volumes:
+      - dados_geoserver:/opt/geoserver/data_dir
       - ./publish_layers.sh:/publish_layers.sh
       - ./shapefile:/shapefile
       - ./shapefile:/estilos
@@ -50,8 +51,9 @@ services:
     container_name: postgis
     restart: always
     volumes:
-      - dados_geoserver:/var/lib/postgresql/data
+      - dados_postgis:/var/lib/postgresql/data
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
 volumes:
   dados_geoserver:
+  dados_postgis:
   cache_flask:

@@ -1,7 +1,8 @@
+from datetime import datetime
 from src.entities.Occurrence import Occurrence
 
 class SerializerOccurrence():
-    def to_geojson(self, occurrences:list):
+    def to_geojson(self, occurrences:list) -> dict:
         features = [
             self._format_feature(occurrence) 
             for occurrence in occurrences
@@ -18,7 +19,7 @@ class SerializerOccurrence():
                 "id": occurrence.id,
                 "category_id": occurrence.category_id,
                 "description": occurrence.description,
-                "date": occurrence.date
+                "date": self._format_date(str(occurrence.date))
             }
         }
     
@@ -27,5 +28,16 @@ class SerializerOccurrence():
         "type": "FeatureCollection",
         "features": features
     }
+
+    def _format_date(self, date) -> str:
+        if isinstance(date, str):
+            try:
+                date = datetime.strptime(date, "%Y-%m-%dT%H:%M:%SZ")
+            except ValueError:
+                try:
+                    date = datetime.strptime(date, "%Y-%m-%d")
+                except ValueError:
+                    return date
+        return date.strftime("%d/%m/%Y")
 
 serializerOccurrence = SerializerOccurrence()

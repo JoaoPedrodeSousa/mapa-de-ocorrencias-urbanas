@@ -23,19 +23,15 @@ class OccurrenceService():
         
         geom = Point(x,y)
 
-        date_obj = datetime.strptime(date, "%Y-%m-%d")
-        dateformatter = date_obj.strftime("%Y-%m-%d")
-
         try:
             self.is_valid_geometry(geom)
             occurrence = Occurrence(
                 id = None,
                 category_id = category_id,
                 description = description,
-                date = dateformatter,
+                date = date,
                 geom = geom
             )
-
             self._occurrence_repository.save(occurrence = occurrence)
             return occurrence
         
