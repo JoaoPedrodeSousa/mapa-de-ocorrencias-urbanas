@@ -3,4 +3,3 @@ data_geoserver
 __pycache__
 src/services/GeoserverService.py
 src/errors/DatastoreNameError.py
-README.MD
